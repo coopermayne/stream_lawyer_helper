@@ -4,6 +4,7 @@ import openai
 
 # Set up OpenAI API
 openai.api_key = st.secrets["openai_api_key"]
+st.set_page_config(page_title="Grammar Helper", page_icon=":scales:")
 
 def generate_grammar_correction(prompt):
     response = openai.Completion.create(
@@ -16,22 +17,26 @@ def generate_grammar_correction(prompt):
     )
     return response.choices[0].text.strip()
 
-def main():
-    st.title("Grammar Correction with OpenAI")
-    st.header("Welcome to the grammar correction app!")
-    st.subheader("This app uses OpenAI to improve the grammar of your text.")
+st.title("Grammar Correction with OpenAI")
+st.markdown("Welcome to the grammar correction app! This app uses OpenAI to improve the grammar of your text.")
 
-    user_text = st.text_area("Enter your text here:", "")
+user_text = st.text_area("Enter your text here:", "")
 
-    if st.button("Correct Grammar"):
-        if user_text:
-            corrected_text = generate_grammar_correction(user_text)
-            st.write("Original text:", user_text)
-            st.write("Corrected text:", corrected_text)
-        else:
-            st.warning("Please enter some text to correct.")
+if st.button("Correct Grammar"):
+    if user_text:
+        corrected_text = generate_grammar_correction(user_text)
+        st.write("Original text:", user_text)
+        st.write("Corrected text:", corrected_text)
     else:
-        st.write("Click the button to correct the grammar of your text.")
+        st.warning("Please enter some text to correct.")
+else:
+    st.write("Click the button to correct the grammar of your text.")
 
-if __name__ == "__main__":
-    main()
+
+st.components.v1.html(
+    """
+
+
+    """,
+    height=0,
+)
